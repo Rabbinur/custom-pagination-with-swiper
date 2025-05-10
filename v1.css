@@ -1,0 +1,25 @@
+
+  /* Default bullet */
+ .custom-bullets .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    margin: 0 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #145076;
+    border-radius: 50%;
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Active bullet */
+ .custom-bullets .swiper-pagination-bullet-active {
+    background-color: #145076;
+    width: 32px;
+    border-radius: 14px;
+    opacity: 1;
+  } 
+   
+
