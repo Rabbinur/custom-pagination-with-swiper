@@ -8,6 +8,7 @@ import { useState } from "react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperClass } from "swiper/types";
 import "./style.css";
 
 const exclusiveOffers = [
@@ -77,10 +78,16 @@ const exclusiveOffers = [
 ];
 
 const ExclusiveOffers = () => {
-	const [swiperInstance, setSwiperInstance] = useState(null);
+	const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(
+		null,
+	);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const groupSize = 3;
 	const totalDots = 3;
+
+	const handleSwiperInit = (swiper: SwiperClass) => {
+		setSwiperInstance(swiper);
+	};
 
 	return (
 		<div className="w-full bg-[#f7f9fb] py-8">
@@ -91,7 +98,7 @@ const ExclusiveOffers = () => {
 
 				<Swiper
 					modules={[Autoplay]}
-					onSwiper={setSwiperInstance}
+					onSwiper={handleSwiperInit}
 					onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
 					spaceBetween={24}
 					slidesPerView={3}
@@ -124,7 +131,7 @@ const ExclusiveOffers = () => {
 					))}
 				</Swiper>
 
-				{/* Custom Pagination Bullets (Always 3 Dots) */}
+				{/* Custom Pagination (always 3 dots) */}
 				<div className="flex justify-center items-center mt-6 space-x-2">
 					{[...Array(totalDots)].map((_, index) => {
 						const start = index * groupSize;
@@ -134,16 +141,17 @@ const ExclusiveOffers = () => {
 
 						return (
 							<button
-								key={index}
+								key={`pagination-${start}`}
+								type="button"
 								onClick={() => {
 									if (swiperInstance) {
 										swiperInstance.slideToLoop(start);
 									}
 								}}
-								className={`w-3 h-3 rounded-full transition-colors ${
-									isActive ? "bg-blue-600 w-7" : "bg-gray-400"
+								className={`w-3 h-3 rounded-full cursor-pointer transition-colors duration-200 ${
+									isActive ? "bg-primary w-7" : "bg-gray-400"
 								}`}
-							></button>
+							/>
 						);
 					})}
 				</div>
@@ -153,3 +161,4 @@ const ExclusiveOffers = () => {
 };
 
 export default ExclusiveOffers;
+
